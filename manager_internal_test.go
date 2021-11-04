@@ -30,7 +30,7 @@ func TestManager_createIndex(t *testing.T) {
 		{
 			scenario: "failure",
 			mock: mockManager(func(c *client) {
-				c.On("CreateIndex", mock.Anything, mock.Anything).
+				c.On("CreateIndex", mock.Anything, mock.Anything, mock.Anything).
 					Return(errors.New("create error"))
 			}),
 			expected: errors.New("create error"),
@@ -38,7 +38,7 @@ func TestManager_createIndex(t *testing.T) {
 		{
 			scenario: "success",
 			mock: mockManager(func(c *client) {
-				c.On("CreateIndex", context.Background(), index).
+				c.On("CreateIndex", context.Background(), index, (*string)(nil)).
 					Return(nil)
 			}),
 		},
@@ -54,6 +54,31 @@ func TestManager_createIndex(t *testing.T) {
 	}
 }
 
+func TestManager_createIndexWithConfig(t *testing.T) {
+	t.Parallel()
+
+	body := `{"mapping":{}}`
+
+	m := mockManager(func(c *client) {
+		c.On("CreateIndex", context.Background(), index, &body).
+			Return(nil)
+	})(t)
+	err := m.createIndexWithConfig(index, instance, &godog.DocString{Content: body})
+
+	assert.NoError(t, err)
+}
+
+func TestManager_createIndexWithConfigFromFile_NotFound(t *testing.T) {
+	t.Parallel()
+
+	m := mockManager()(t)
+	err := m.createIndexWithConfigFromFile(index, instance, &godog.DocString{Content: "unknown"})
+
+	expected := `could not read config from file "unknown": open unknown: no such file or directory`
+
+	assert.EqualError(t, err, expected)
+}
+
 func TestManager_recreateIndex(t *testing.T) {
 	t.Parallel()
 
@@ -65,7 +90,7 @@ func TestManager_recreateIndex(t *testing.T) {
 		{
 			scenario: "failure",
 			mock: mockManager(func(c *client) {
-				c.On("RecreateIndex", mock.Anything, mock.Anything).
+				c.On("RecreateIndex", mock.Anything, mock.Anything, mock.Anything).
 					Return(errors.New("recreate error"))
 			}),
 			expected: errors.New("recreate error"),
@@ -73,7 +98,7 @@ func TestManager_recreateIndex(t *testing.T) {
 		{
 			scenario: "success",
 			mock: mockManager(func(c *client) {
-				c.On("RecreateIndex", context.Background(), index).
+				c.On("RecreateIndex", context.Background(), index, (*string)(nil)).
 					Return(nil)
 			}),
 		},
@@ -87,6 +112,31 @@ func TestManager_recreateIndex(t *testing.T) {
 			assert.Equal(t, tc.expected, tc.mock(t).recreateIndex(index, instance))
 		})
 	}
+}
+
+func TestManager_recreateIndexWithConfig(t *testing.T) {
+	t.Parallel()
+
+	body := `{"mapping":{}}`
+
+	m := mockManager(func(c *client) {
+		c.On("RecreateIndex", context.Background(), index, &body).
+			Return(nil)
+	})(t)
+	err := m.recreateIndexWithConfig(index, instance, &godog.DocString{Content: body})
+
+	assert.NoError(t, err)
+}
+
+func TestManager_recreateIndexWithConfigFromFile_NotFound(t *testing.T) {
+	t.Parallel()
+
+	m := mockManager()(t)
+	err := m.recreateIndexWithConfigFromFile(index, instance, &godog.DocString{Content: "unknown"})
+
+	expected := `could not read config from file "unknown": open unknown: no such file or directory`
+
+	assert.EqualError(t, err, expected)
 }
 
 func TestManager_deleteIndex(t *testing.T) {

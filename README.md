@@ -88,6 +88,44 @@ For example:
 Given index "products" is created
 ```
 
+You could create a new index with a custom config by running:
+ - `index "([^"]*)" is created with config[:]?$`
+ - `index "([^"]*)" is created in es "([^"]*)" with config[:]?$`
+ - `index "([^"]*)" is created with config from file[:]?$`
+ - `index "([^"]*)" is created in es "([^"]*)" with config from file[:]?$`
+
+For example:
+
+```gherkin
+Given index "products" is created with config:
+"""
+{
+    "mappings": {
+        "properties": {
+            "size": {
+                "type": "integer"
+            },
+            "name": {
+                "type": "keyword"
+            },
+            "description": {
+                "type": "text"
+            }
+        }
+    }
+}
+"""
+```
+
+or
+
+```gherkin
+Given index "products" is created with config from file:
+"""
+../../resources/fixtures/mapping.json
+"""
+```
+
 #### Recreate an index
 
 Create a new index in the instance if it does not exist, otherwise the index will be deleted and recreated.
@@ -108,6 +146,20 @@ or
 ```gherkin
 Given there is index "products"
 ```
+
+Same as [#Create a new index](#Create a new index), you could recreate an index with a custom config:
+- Inline
+  - `index "([^"]*)" is recreated with config[:]?$`
+  - `there is (?:an )?index "([^"]*)" with config[:]?$`
+- From a file
+  - `index "([^"]*)" is recreated with config from file[:]?$`
+  - `there is (?:an )?index "([^"]*)" with config from file[:]?$`
+- Inline (for other instances)
+  - `index "([^"]*)" is recreated in es "([^"]*)" with config[:]?$`
+  - `there is (?:an )?index "([^"]*)" in es "([^"]*)" with config[:]?$`
+- From a file (for other instances)
+  - `index "([^"]*)" is recreated in es "([^"]*)" with config from file[:]?$`
+  - `there is (?:an )?index "([^"]*)" in es "([^"]*)" with config from file[:]?$`
 
 #### Delete an index
 

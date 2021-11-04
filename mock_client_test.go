@@ -38,12 +38,12 @@ func (c *client) GetIndex(ctx context.Context, index string) (json.RawMessage, e
 	return result.(json.RawMessage), err
 }
 
-func (c *client) CreateIndex(ctx context.Context, index string) error {
-	return c.Called(ctx, index).Error(0)
+func (c *client) CreateIndex(ctx context.Context, index string, config *string) error {
+	return c.Called(ctx, index, config).Error(0)
 }
 
-func (c *client) RecreateIndex(ctx context.Context, index string) error {
-	return c.Called(ctx, index).Error(0)
+func (c *client) RecreateIndex(ctx context.Context, index string, config *string) error {
+	return c.Called(ctx, index, config).Error(0)
 }
 
 func (c *client) DeleteIndex(ctx context.Context, indices ...string) error {

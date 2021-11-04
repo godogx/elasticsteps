@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"io"
 	"net/http"
 	"strings"
 
@@ -39,10 +40,19 @@ func (c *Client) GetIndex(ctx context.Context, index string) (json.RawMessage, e
 }
 
 // CreateIndex satisfies elasticsteps.Client.
-func (c *Client) CreateIndex(ctx context.Context, index string) error {
+func (c *Client) CreateIndex(ctx context.Context, index string, config *string) error {
 	create := c.es.Indices.Create
 
-	_, err := refineResp(create(index, create.WithContext(ctx)))
+	var body io.Reader
+
+	if config != nil {
+		body = strings.NewReader(*config)
+	}
+
+	_, err := refineResp(create(index,
+		create.WithContext(ctx),
+		create.WithBody(body),
+	))
 	if err != nil {
 		return ctxd.WrapError(ctx, err, "could not create index", "index", index)
 	}
@@ -51,12 +61,12 @@ func (c *Client) CreateIndex(ctx context.Context, index string) error {
 }
 
 // RecreateIndex satisfies elasticsteps.Client.
-func (c *Client) RecreateIndex(ctx context.Context, index string) error {
+func (c *Client) RecreateIndex(ctx context.Context, index string, config *string) error {
 	if err := c.DeleteIndex(ctx, index); err != nil {
 		return err
 	}
 
-	return c.CreateIndex(ctx, index)
+	return c.CreateIndex(ctx, index, config)
 }
 
 // DeleteIndex satisfies elasticsteps.Client.
@@ -158,6 +168,8 @@ func (c *Client) DeleteAllDocuments(ctx context.Context, index string) error {
 	_, err := refineResp(deleteByQuery(
 		[]string{index}, strings.NewReader(query),
 		deleteByQuery.WithContext(ctx),
+		deleteByQuery.WithRefresh(true),
+		deleteByQuery.WithConflicts("proceed"),
 	))
 	if err != nil {
 		return ctxd.WrapError(ctx, err, "could not delete all documents", "index", index)

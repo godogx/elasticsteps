@@ -22,8 +22,8 @@ type IndexGetter interface {
 
 // IndexCreator creates indices.
 type IndexCreator interface {
-	CreateIndex(ctx context.Context, index string) error
-	RecreateIndex(ctx context.Context, index string) error
+	CreateIndex(ctx context.Context, index string, config *string) error
+	RecreateIndex(ctx context.Context, index string, config *string) error
 }
 
 // IndexDeleter deletes indices.

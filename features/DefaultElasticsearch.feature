@@ -125,6 +125,9 @@ Feature: Test Different ElasticSearch driver
         ]
         """
 
+        Given no docs in index "$DRIVER_default_index_5"
+        Then no docs are available in index "$DRIVER_default_index_5"
+
     Scenario: Indexed documents from a file are available for search
         Given index "$DRIVER_default_index_6" is recreated
         And docs in this file are stored in index "$DRIVER_default_index_6":
@@ -228,3 +231,97 @@ Feature: Test Different ElasticSearch driver
         """
         ../../resources/fixtures/result_en_us.json
         """
+
+    Scenario: Create index with inline config
+        Given no index "$DRIVER_default_index_9"
+
+        When index "$DRIVER_default_index_9" is created with config:
+        """
+        {
+            "mappings": {
+                "properties": {
+                    "age": {
+                        "type": "integer"
+                    },
+                    "email": {
+                        "type": "keyword"
+                    },
+                    "name": {
+                        "type": "text"
+                    }
+                }
+            }
+        }
+        """
+
+        Then index "$DRIVER_default_index_9" exists
+
+    Scenario: Create index with config from a file
+        Given no index "$DRIVER_default_index_10"
+
+        When index "$DRIVER_default_index_10" is created with config from file:
+        """
+        ../../resources/fixtures/mapping.json
+        """
+
+        Then index "$DRIVER_default_index_10" exists
+
+    Scenario: Recreate index with inline config
+        Given index "$DRIVER_default_index_11" is recreated with config:
+        """
+        {
+            "mappings": {
+                "properties": {
+                    "age": {
+                        "type": "integer"
+                    },
+                    "email": {
+                        "type": "keyword"
+                    },
+                    "name": {
+                        "type": "text"
+                    }
+                }
+            }
+        }
+        """
+
+        Then index "$DRIVER_default_index_11" exists
+
+    Scenario: Recreate index with config from a file
+        Given index "$DRIVER_default_index_12" is recreated with config from file:
+        """
+        ../../resources/fixtures/mapping.json
+        """
+
+        Then index "$DRIVER_default_index_12" exists
+
+    Scenario: There is an index with inline config
+        Given there is an index "$DRIVER_default_index_13" with config:
+        """
+        {
+            "mappings": {
+                "properties": {
+                    "age": {
+                        "type": "integer"
+                    },
+                    "email": {
+                        "type": "keyword"
+                    },
+                    "name": {
+                        "type": "text"
+                    }
+                }
+            }
+        }
+        """
+
+        Then index "$DRIVER_default_index_13" exists
+
+    Scenario: There is an index with config from a file
+        Given there is an index "$DRIVER_default_index_14" with config from file:
+        """
+        ../../resources/fixtures/mapping.json
+        """
+
+        Then index "$DRIVER_default_index_14" exists

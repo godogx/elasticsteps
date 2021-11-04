@@ -24,10 +24,21 @@ func (m *Manager) client(instance string) Client {
 	return m.instances[instance]
 }
 
+// nolint: funlen
 func (m *Manager) registerPrerequisites(sc *godog.ScenarioContext) {
 	sc.Step(`index "([^"]*)" is created in es "([^"]*)"$`, m.createIndex)
 	sc.Step(`index "([^"]*)" is created$`, func(index string) error {
 		return m.createIndex(index, defaultInstance)
+	})
+
+	sc.Step(`index "([^"]*)" is created in es "([^"]*)" with config[:]?$`, m.createIndexWithConfig)
+	sc.Step(`index "([^"]*)" is created with config[:]?$`, func(index string, config *godog.DocString) error {
+		return m.createIndexWithConfig(index, defaultInstance, config)
+	})
+
+	sc.Step(`index "([^"]*)" is created in es "([^"]*)" with config from file[:]?$`, m.createIndexWithConfigFromFile)
+	sc.Step(`index "([^"]*)" is created with config from file[:]?$`, func(index string, body *godog.DocString) error {
+		return m.createIndexWithConfigFromFile(index, defaultInstance, body)
 	})
 
 	sc.Step(`index "([^"]*)" is recreated in es "([^"]*)"$`, m.recreateIndex)
@@ -35,9 +46,29 @@ func (m *Manager) registerPrerequisites(sc *godog.ScenarioContext) {
 		return m.recreateIndex(index, defaultInstance)
 	})
 
+	sc.Step(`index "([^"]*)" is recreated in es "([^"]*)" with config[:]?$`, m.recreateIndexWithConfig)
+	sc.Step(`index "([^"]*)" is recreated with config[:]?$`, func(index string, config *godog.DocString) error {
+		return m.recreateIndexWithConfig(index, defaultInstance, config)
+	})
+
+	sc.Step(`index "([^"]*)" is recreated in es "([^"]*)" with config from file[:]?$`, m.recreateIndexWithConfigFromFile)
+	sc.Step(`index "([^"]*)" is recreated with config from file[:]?$`, func(index string, body *godog.DocString) error {
+		return m.recreateIndexWithConfigFromFile(index, defaultInstance, body)
+	})
+
 	sc.Step(`there is (?:an )?index "([^"]*)" in es "([^"]*)"$`, m.recreateIndex)
 	sc.Step(`there is (?:an )?index "([^"]*)"$`, func(index string) error {
 		return m.recreateIndex(index, defaultInstance)
+	})
+
+	sc.Step(`there is (?:an )?index "([^"]*)" in es "([^"]*)" with config[:]?$`, m.recreateIndexWithConfig)
+	sc.Step(`there is (?:an )?index "([^"]*)" with config[:]?$`, func(index string, config *godog.DocString) error {
+		return m.recreateIndexWithConfig(index, defaultInstance, config)
+	})
+
+	sc.Step(`there is (?:an )?index "([^"]*)" in es "([^"]*)" with config from file[:]?$`, m.recreateIndexWithConfigFromFile)
+	sc.Step(`there is (?:an )?index "([^"]*)" with config from file[:]?$`, func(index string, body *godog.DocString) error {
+		return m.recreateIndexWithConfigFromFile(index, defaultInstance, body)
 	})
 
 	sc.Step(`no index "([^"]*)" in es "([^"]*)"$`, m.deleteIndex)
@@ -45,8 +76,8 @@ func (m *Manager) registerPrerequisites(sc *godog.ScenarioContext) {
 		return m.deleteIndex(index, defaultInstance)
 	})
 
-	sc.Step(`no rows in index "([^"]*)" of es "([^"]*)"$`, m.truncateIndex)
-	sc.Step(`no rows in index "([^"]*)"$`, func(index string) error {
+	sc.Step(`no docs in index "([^"]*)" of es "([^"]*)"$`, m.truncateIndex)
+	sc.Step(`no docs in index "([^"]*)"$`, func(index string) error {
 		return m.truncateIndex(index, defaultInstance)
 	})
 
@@ -119,11 +150,49 @@ func (m *Manager) RegisterContext(sc *godog.ScenarioContext) {
 }
 
 func (m *Manager) createIndex(index, instance string) error {
-	return m.client(instance).CreateIndex(context.Background(), index)
+	return m.createIndexWithConfig(index, instance, nil)
+}
+
+func (m *Manager) createIndexWithConfig(index, instance string, body *godog.DocString) error {
+	var config *string
+
+	if body != nil {
+		config = &body.Content
+	}
+
+	return m.client(instance).CreateIndex(context.Background(), index, config)
+}
+
+func (m *Manager) createIndexWithConfigFromFile(index, instance string, body *godog.DocString) error {
+	config, err := os.ReadFile(body.Content)
+	if err != nil {
+		return fmt.Errorf("could not read config from file %q: %w", body.Content, err)
+	}
+
+	return m.createIndexWithConfig(index, instance, &godog.DocString{Content: string(config)})
 }
 
 func (m *Manager) recreateIndex(index, instance string) error {
-	return m.client(instance).RecreateIndex(context.Background(), index)
+	return m.recreateIndexWithConfig(index, instance, nil)
+}
+
+func (m *Manager) recreateIndexWithConfig(index, instance string, body *godog.DocString) error {
+	var config *string
+
+	if body != nil {
+		config = &body.Content
+	}
+
+	return m.client(instance).RecreateIndex(context.Background(), index, config)
+}
+
+func (m *Manager) recreateIndexWithConfigFromFile(index, instance string, body *godog.DocString) error {
+	config, err := os.ReadFile(body.Content)
+	if err != nil {
+		return fmt.Errorf("could not read config from file %q: %w", body.Content, err)
+	}
+
+	return m.recreateIndexWithConfig(index, instance, &godog.DocString{Content: string(config)})
 }
 
 func (m *Manager) deleteIndex(index, instance string) error {
