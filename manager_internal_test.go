@@ -238,6 +238,17 @@ func TestManager_indexDocs(t *testing.T) {
 	}
 }
 
+func TestManager_indexDocsFromFile_NotFound(t *testing.T) {
+	t.Parallel()
+
+	m := mockManager()(t)
+	err := m.indexDocsFromFile(index, instance, &godog.DocString{Content: "unknown"})
+
+	expected := `could not read docs from file "unknown": open unknown: no such file or directory`
+
+	assert.EqualError(t, err, expected)
+}
+
 func TestManager_assertIndexExists(t *testing.T) {
 	t.Parallel()
 
@@ -440,6 +451,17 @@ func TestManager_assertAllDocs(t *testing.T) {
 	}
 }
 
+func TestManager_assertAllDocsFromFile_NotFound(t *testing.T) {
+	t.Parallel()
+
+	m := mockManager()(t)
+	err := m.assertAllDocsFromFile(index, instance, &godog.DocString{Content: "unknown"})
+
+	expected := `could not read docs from file "unknown": open unknown: no such file or directory`
+
+	assert.EqualError(t, err, expected)
+}
+
 func TestManager_assertFoundDocs(t *testing.T) {
 	t.Parallel()
 
@@ -535,6 +557,17 @@ func TestManager_assertFoundDocs_WithQuery(t *testing.T) {
 
 	err = m.assertFoundDocs(index, instance, &godog.DocString{Content: expected})
 	assert.NoError(t, err)
+}
+
+func TestManager_assertFoundDocsFromFile_NotFound(t *testing.T) {
+	t.Parallel()
+
+	m := mockManager()(t)
+	err := m.assertFoundDocsFromFile(index, instance, &godog.DocString{Content: "unknown"})
+
+	expected := `could not read docs from file "unknown": open unknown: no such file or directory`
+
+	assert.EqualError(t, err, expected)
 }
 
 func mockManager(mocks ...func(c *client)) func(t *testing.T) *Manager {

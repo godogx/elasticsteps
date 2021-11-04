@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-DOCKER_COMPOSE="docker-compose.yml"
+DOCKER_COMPOSE="ci/assets/docker-compose.yml"
 RETRY_COUNT=15
 RETRY_TIMEOUT=5
 

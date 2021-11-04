@@ -125,9 +125,21 @@ Feature: Test Different ElasticSearch driver
         ]
         """
 
+    Scenario: Indexed documents from a file are available for search
+        Given index "$DRIVER_extra_index_6" is recreated in es "extra"
+        And docs in this file are stored in index "$DRIVER_extra_index_6" of es "extra":
+        """
+        ../../resources/fixtures/products_en_us.json
+        """
+
+        And only docs in this file are available in index "$DRIVER_extra_index_6" of es "extra":
+        """
+        ../../resources/fixtures/result_en_us.json
+        """
+
     Scenario: Search for documents by query
-        Given there is index "$DRIVER_extra_index_6" in es "extra"
-        And these docs are stored in index "$DRIVER_extra_index_6" of es "extra":
+        Given there is index "$DRIVER_extra_index_7" in es "extra"
+        And these docs are stored in index "$DRIVER_extra_index_7" of es "extra":
         """
         [
             {
@@ -157,7 +169,7 @@ Feature: Test Different ElasticSearch driver
         ]
         """
 
-        When I search in index "$DRIVER_extra_index_6" of es "extra" with query:
+        When I search in index "$DRIVER_extra_index_7" of es "extra" with query:
         """
         {
             "query": {
@@ -168,7 +180,7 @@ Feature: Test Different ElasticSearch driver
         }
         """
 
-        Then these docs are found in index "$DRIVER_extra_index_6" of es "extra":
+        Then these docs are found in index "$DRIVER_extra_index_7" of es "extra":
         """
         [
             {
@@ -192,4 +204,27 @@ Feature: Test Different ElasticSearch driver
                 "_type": "_doc"
             }
         ]
+        """
+
+    Scenario: Search for documents from a file by query
+        Given there is index "$DRIVER_extra_index_8" in es "extra"
+        And docs in this file are stored in index "$DRIVER_extra_index_8" of es "extra":
+        """
+        ../../resources/fixtures/products_mixed.json
+        """
+
+        When I search in index "$DRIVER_extra_index_8" of es "extra" with query:
+        """
+        {
+            "query": {
+                "match": {
+                    "locale": "en_US"
+                }
+            }
+        }
+        """
+
+        Then docs in this file are found in index "$DRIVER_extra_index_8" of es "extra":
+        """
+        ../../resources/fixtures/result_en_us.json
         """

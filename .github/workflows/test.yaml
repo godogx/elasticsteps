@@ -64,4 +64,4 @@ jobs:
 
       - name: Stop containers
         if: always()
-        run: docker-compose -f "docker-compose.yml" -p "$GITHUB_SHA" down
+        run: ci/scripts/docker-down.sh

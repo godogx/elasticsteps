@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"os"
 
 	"github.com/cucumber/godog"
 	"github.com/swaggest/assertjson"
@@ -53,6 +54,11 @@ func (m *Manager) registerPrerequisites(sc *godog.ScenarioContext) {
 	sc.Step(`these docs are stored in index "([^"]*)"[:]?$`, func(index string, docs *godog.DocString) error {
 		return m.indexDocs(index, defaultInstance, docs)
 	})
+
+	sc.Step(`docs (?:in|from) this file are stored in index "([^"]*)" of es "([^"]*)"[:]?$`, m.indexDocsFromFile)
+	sc.Step(`docs (?:in|from) this file are stored in index "([^"]*)"[:]?$`, func(index string, body *godog.DocString) error {
+		return m.indexDocsFromFile(index, defaultInstance, body)
+	})
 }
 
 func (m *Manager) registerActions(sc *godog.ScenarioContext) {
@@ -83,9 +89,19 @@ func (m *Manager) registerAssertions(sc *godog.ScenarioContext) {
 		return m.assertAllDocs(index, defaultInstance, docs)
 	})
 
+	sc.Step(`only docs (?:in|from) this file are available in index "([^"]*)" of es "([^"]*)"[:]?$`, m.assertAllDocsFromFile)
+	sc.Step(`only docs (?:in|from) this file are available in index "([^"]*)"[:]?$`, func(index string, body *godog.DocString) error {
+		return m.assertAllDocsFromFile(index, defaultInstance, body)
+	})
+
 	sc.Step(`these docs are found in index "([^"]*)" of es "([^"]*)"[:]?$`, m.assertFoundDocs)
 	sc.Step(`these docs are found in index "([^"]*)"[:]?$`, func(index string, docs *godog.DocString) error {
 		return m.assertFoundDocs(index, defaultInstance, docs)
+	})
+
+	sc.Step(`docs (?:in|from) this file are found in index "([^"]*)" of es "([^"]*)"[:]?$`, m.assertFoundDocsFromFile)
+	sc.Step(`docs (?:in|from) this file are found in index "([^"]*)"[:]?$`, func(index string, body *godog.DocString) error {
+		return m.assertFoundDocsFromFile(index, defaultInstance, body)
 	})
 }
 
@@ -126,6 +142,15 @@ func (m *Manager) indexDocs(index, instance string, body *godog.DocString) error
 	}
 
 	return m.client(instance).IndexDocuments(context.Background(), index, docs...)
+}
+
+func (m *Manager) indexDocsFromFile(index, instance string, body *godog.DocString) error {
+	content, err := os.ReadFile(body.Content)
+	if err != nil {
+		return fmt.Errorf("could not read docs from file %q: %w", body.Content, err)
+	}
+
+	return m.indexDocs(index, instance, &godog.DocString{Content: string(content)})
 }
 
 func (m *Manager) findDocuments(index, instance string, query *godog.DocString) error {
@@ -185,6 +210,15 @@ func (m *Manager) assertAllDocs(index, instance string, body *godog.DocString) e
 	return nil
 }
 
+func (m *Manager) assertAllDocsFromFile(index, instance string, body *godog.DocString) error {
+	content, err := os.ReadFile(body.Content)
+	if err != nil {
+		return fmt.Errorf("could not read docs from file %q: %w", body.Content, err)
+	}
+
+	return m.assertAllDocs(index, instance, &godog.DocString{Content: string(content)})
+}
+
 func (m *Manager) assertFoundDocs(index, instance string, body *godog.DocString) error {
 	var query *string
 
@@ -209,6 +243,15 @@ func (m *Manager) assertFoundDocs(index, instance string, body *godog.DocString)
 	}
 
 	return nil
+}
+
+func (m *Manager) assertFoundDocsFromFile(index, instance string, body *godog.DocString) error {
+	content, err := os.ReadFile(body.Content)
+	if err != nil {
+		return fmt.Errorf("could not read docs from file %q: %w", body.Content, err)
+	}
+
+	return m.assertFoundDocs(index, instance, &godog.DocString{Content: string(content)})
 }
 
 // ManagerOption sets up the manager.

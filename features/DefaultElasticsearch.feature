@@ -125,9 +125,21 @@ Feature: Test Different ElasticSearch driver
         ]
         """
 
+    Scenario: Indexed documents from a file are available for search
+        Given index "$DRIVER_default_index_6" is recreated
+        And docs in this file are stored in index "$DRIVER_default_index_6":
+        """
+        ../../resources/fixtures/products_en_us.json
+        """
+
+        And only docs in this file are available in index "$DRIVER_default_index_6":
+        """
+        ../../resources/fixtures/result_en_us.json
+        """
+
     Scenario: Search for documents by query
-        Given there is index "$DRIVER_default_index_6"
-        And these docs are stored in index "$DRIVER_default_index_6":
+        Given there is index "$DRIVER_default_index_7"
+        And these docs are stored in index "$DRIVER_default_index_7":
         """
         [
             {
@@ -157,7 +169,7 @@ Feature: Test Different ElasticSearch driver
         ]
         """
 
-        When I search in index "$DRIVER_default_index_6" with query:
+        When I search in index "$DRIVER_default_index_7" with query:
         """
         {
             "query": {
@@ -168,7 +180,7 @@ Feature: Test Different ElasticSearch driver
         }
         """
 
-        Then these docs are found in index "$DRIVER_default_index_6":
+        Then these docs are found in index "$DRIVER_default_index_7":
         """
         [
             {
@@ -192,4 +204,27 @@ Feature: Test Different ElasticSearch driver
                 "_type": "_doc"
             }
         ]
+        """
+
+    Scenario: Search for documents from a file by query
+        Given there is index "$DRIVER_default_index_8"
+        And docs in this file are stored in index "$DRIVER_default_index_8":
+        """
+        ../../resources/fixtures/products_mixed.json
+        """
+
+        When I search in index "$DRIVER_default_index_8" with query:
+        """
+        {
+            "query": {
+                "match": {
+                    "locale": "en_US"
+                }
+            }
+        }
+        """
+
+        Then docs in this file are found in index "$DRIVER_default_index_8":
+        """
+        ../../resources/fixtures/result_en_us.json
         """

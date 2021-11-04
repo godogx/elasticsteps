@@ -145,6 +145,19 @@ Given these docs are stored in index "products":
 """
 ```
 
+You can also send the docs from a file by using:
+- `docs (?:in|from) this file are stored in index "([^"]*)"[:]?$`
+- `docs (?:in|from) this file are stored in index "([^"]*)" of es "([^"]*)"[:]?$` (if you want to index in the other instance)
+
+For example:
+
+```gherkin
+Given docs in this file are stored in index "products":
+"""
+../../resources/fixtures/products.json
+"""
+```
+
 #### Check whether an index exists
 
 - `index "([^"]*)" exists$`
@@ -213,6 +226,19 @@ Then only these docs are available in index "products":
 """
 ```
 
+You can also get the expected docs from a file by using:
+- `only docs (?:in|from) this file are available in index "([^"]*)"[:]?$`
+- `only docs (?:in|from) this file are available in index "([^"]*)" of es "([^"]*)"[:]?$` (if you want to index in the other instance)
+
+For example:
+
+```gherkin
+Given only docs in this file are available in index "products":
+"""
+../../resources/fixtures/result.json
+"""
+```
+
 #### Query documents
 
 - First step: Setup the query <br/>
@@ -260,5 +286,18 @@ Then these docs are found in index "products":
         "_type": "_doc"
     }
 ]
+"""
+```
+
+You can also get the expected docs from a file by using:
+- `docs (?:in|from) this file are found in index "([^"]*)"[:]?$`
+- `docs (?:in|from) this file are found in index "([^"]*)" of es "([^"]*)"[:]?$` (if you want to index in the other instance)
+
+For example:
+
+```gherkin
+Given docs in this file are found in index "products":
+"""
+../../resources/fixtures/result_en_us.json
 """
 ```

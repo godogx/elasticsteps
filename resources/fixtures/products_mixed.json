@@ -1,0 +1,26 @@
+[
+    {
+        "_id": "41",
+        "_source": {
+            "handle": "item-41",
+            "name": "Item 41",
+            "locale": "en_US"
+        }
+    },
+    {
+        "_id": "42",
+        "_source": {
+            "handle": "item-42",
+            "name": "Item 42",
+            "locale": "en_US"
+        }
+    },
+    {
+        "_id": "43",
+        "_source": {
+            "handle": "item-43",
+            "name": "Item 43",
+            "locale": "fr_FR"
+        }
+    }
+]
