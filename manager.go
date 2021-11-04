@@ -131,7 +131,7 @@ func (m *Manager) deleteIndex(index, instance string) error {
 }
 
 func (m *Manager) truncateIndex(index, instance string) error {
-	return m.client(instance).RecreateIndex(context.Background(), index)
+	return m.client(instance).DeleteAllDocuments(context.Background(), index)
 }
 
 func (m *Manager) indexDocs(index, instance string, body *godog.DocString) error {

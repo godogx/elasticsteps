@@ -135,15 +135,15 @@ func TestManager_truncateIndex(t *testing.T) {
 		{
 			scenario: "failure",
 			mock: mockManager(func(c *client) {
-				c.On("RecreateIndex", mock.Anything, mock.Anything).
-					Return(errors.New("recreate error"))
+				c.On("DeleteAllDocuments", mock.Anything, mock.Anything).
+					Return(errors.New("delete error"))
 			}),
-			expected: errors.New("recreate error"),
+			expected: errors.New("delete error"),
 		},
 		{
 			scenario: "success",
 			mock: mockManager(func(c *client) {
-				c.On("RecreateIndex", context.Background(), index).
+				c.On("DeleteAllDocuments", context.Background(), index).
 					Return(nil)
 			}),
 		},

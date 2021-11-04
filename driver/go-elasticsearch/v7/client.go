@@ -150,6 +150,22 @@ func (c *Client) FindDocuments(ctx context.Context, index string, query *string)
 	return result.Hits.Hits, nil
 }
 
+// DeleteAllDocuments satisfies elasticsteps.Client.
+func (c *Client) DeleteAllDocuments(ctx context.Context, index string) error {
+	deleteByQuery := c.es.DeleteByQuery
+	query := `{"query": {"match_all":{}}}`
+
+	_, err := refineResp(deleteByQuery(
+		[]string{index}, strings.NewReader(query),
+		deleteByQuery.WithContext(ctx),
+	))
+	if err != nil {
+		return ctxd.WrapError(ctx, err, "could not delete all documents", "index", index)
+	}
+
+	return nil
+}
+
 func wrapClient(client *es7.Client) *Client {
 	return &Client{es: client}
 }

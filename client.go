@@ -10,8 +10,9 @@ type Client interface {
 	IndexGetter
 	IndexCreator
 	IndexDeleter
-	DocumentIndexer
 	DocumentFinder
+	DocumentIndexer
+	DocumentDeleter
 }
 
 // IndexGetter gets index.
@@ -38,4 +39,9 @@ type DocumentIndexer interface {
 // DocumentFinder gets documents.
 type DocumentFinder interface {
 	FindDocuments(ctx context.Context, index string, query *string) ([]json.RawMessage, error)
+}
+
+// DocumentDeleter deletes documents.
+type DocumentDeleter interface {
+	DeleteAllDocuments(ctx context.Context, index string) error
 }

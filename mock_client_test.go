@@ -114,6 +114,10 @@ func (c *client) FindDocuments(ctx context.Context, index string, query *string)
 	return result.([]json.RawMessage), err
 }
 
+func (c *client) DeleteAllDocuments(ctx context.Context, index string) error {
+	return c.Called(ctx, index).Error(0)
+}
+
 // mockClient creates Client mock with cleanup to ensure all the expectations are met.
 func mockClient(mocks ...func(c *client)) clientMocker {
 	return func(tb testing.TB) *client {
