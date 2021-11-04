@@ -350,6 +350,6 @@ For example:
 ```gherkin
 Given docs in this file are found in index "products":
 """
-../../resources/fixtures/result_en_us.json
+../../resources/fixtures/result.json
 """
 ```
