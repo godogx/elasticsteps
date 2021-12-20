@@ -5,7 +5,7 @@ go 1.17
 require (
 	github.com/bool64/ctxd v1.0.0
 	github.com/cucumber/godog v0.12.2
-	github.com/elastic/go-elasticsearch/v7 v7.15.1
+	github.com/elastic/go-elasticsearch/v7 v7.16.0
 	github.com/godogx/expandvars v0.1.1
 	github.com/stretchr/testify v1.7.0
 	github.com/swaggest/assertjson v1.6.8
