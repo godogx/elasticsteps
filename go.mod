@@ -3,7 +3,7 @@ module github.com/godogx/elasticsteps
 go 1.17
 
 require (
-	github.com/bool64/ctxd v1.1.2
+	github.com/bool64/ctxd v1.1.3
 	github.com/cucumber/godog v0.12.5
 	github.com/elastic/go-elasticsearch/v7 v7.17.1
 	github.com/godogx/expandvars v0.1.1
