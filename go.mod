@@ -7,7 +7,7 @@ require (
 	github.com/cucumber/godog v0.12.5
 	github.com/elastic/go-elasticsearch/v7 v7.17.1
 	github.com/godogx/expandvars v0.1.1
-	github.com/stretchr/testify v1.7.1
+	github.com/stretchr/testify v1.7.2
 	github.com/swaggest/assertjson v1.7.0
 )
 
@@ -29,5 +29,5 @@ require (
 	github.com/yudai/gojsondiff v1.0.0 // indirect
 	github.com/yudai/golcs v0.0.0-20170316035057-ecda9a501e82 // indirect
 	golang.org/x/sys v0.0.0-20191005200804-aed5e4c7ecf9 // indirect
-	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
