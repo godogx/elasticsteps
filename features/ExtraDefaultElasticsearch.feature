@@ -179,7 +179,10 @@ Feature: Test Different ElasticSearch driver
                 "match": {
                     "locale": "en_US"
                 }
-            }
+            },
+            "sort": [
+                {"_id": {"order": "asc"}}
+            ]
         }
         """
 
@@ -194,7 +197,8 @@ Feature: Test Different ElasticSearch driver
                     "locale": "en_US"
                 },
                 "_score": "<ignore-diff>",
-                "_type": "_doc"
+                "_type": "_doc",
+                "sort": ["41"]
             },
             {
                 "_id": "42",
@@ -204,7 +208,8 @@ Feature: Test Different ElasticSearch driver
                     "locale": "en_US"
                 },
                 "_score": "<ignore-diff>",
-                "_type": "_doc"
+                "_type": "_doc",
+                "sort": ["42"]
             }
         ]
         """
