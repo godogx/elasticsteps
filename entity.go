@@ -68,7 +68,7 @@ func (h *SearchResultHitsHits) UnmarshalJSON(data []byte) error {
 
 	for k, v := range raw {
 		delete(v, "_index")
-		(*h)[k], _ = json.Marshal(v) // nolint: errcheck
+		(*h)[k], _ = json.Marshal(v) // nolint: errcheck,errchkjson
 	}
 
 	return nil
