@@ -7,7 +7,7 @@ require (
 	github.com/cucumber/godog v0.12.5
 	github.com/elastic/go-elasticsearch/v7 v7.17.1
 	github.com/godogx/expandvars v0.1.1
-	github.com/stretchr/testify v1.7.4
+	github.com/stretchr/testify v1.7.5
 	github.com/swaggest/assertjson v1.7.0
 )
 
