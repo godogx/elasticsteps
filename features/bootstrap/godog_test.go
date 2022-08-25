@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"math/rand"
+	"os"
 	"path/filepath"
 	"strings"
 	"testing"
@@ -87,7 +87,7 @@ func RunSuite(t *testing.T, path string, initScenario func(t *testing.T, ctx *go
 
 	var paths []string
 
-	files, err := ioutil.ReadDir(filepath.Clean(path))
+	files, err := os.ReadDir(filepath.Clean(path))
 	assert.NoError(t, err)
 
 	paths = make([]string, 0, len(files))
