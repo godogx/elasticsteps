@@ -12,7 +12,7 @@ require (
 )
 
 require (
-	github.com/bool64/shared v0.1.4 // indirect
+	github.com/bool64/shared v0.1.5 // indirect
 	github.com/cucumber/gherkin-go/v19 v19.0.3 // indirect
 	github.com/cucumber/messages-go/v16 v16.0.1 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect

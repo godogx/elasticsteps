@@ -26,10 +26,12 @@ github.com/bketelsen/crypt v0.0.3-0.20200106085610-5cbc8cc4026c/go.mod h1:MKsuJm
 github.com/bool64/ctxd v1.1.3 h1:YXnsXdiB0wTsyaR+PgRBDj8c0ny2lP4QxYb33i2nk7A=
 github.com/bool64/ctxd v1.1.3/go.mod h1:ZJBWwFBYTMSES2gWQ+Q8ajTEMR/C1vAsbNhbml+Qk1o=
 github.com/bool64/dev v0.2.5/go.mod h1:cTHiTDNc8EewrQPy3p1obNilpMpdmlUesDkFTF2zRWU=
-github.com/bool64/dev v0.2.10 h1:ypAGBazcwyIy2JvIJio8V3kdqO7AgIAYvcckW54qxr4=
 github.com/bool64/dev v0.2.10/go.mod h1:/csLrm+4oDSsKJRIVS0mrywAonLnYKFG8RvGT7Jh9b8=
-github.com/bool64/shared v0.1.4 h1:zwtb1dl2QzDa9TJOq2jzDTdb5IPf9XlxTGKN8cySWT0=
+github.com/bool64/dev v0.2.17 h1:jE+T92oazAIV8fvMDJrKjsF1bzfr5XezZ8bM5GS1Cl0=
+github.com/bool64/dev v0.2.17/go.mod h1:iJbh1y/HkunEPhgebWRNcs8wfGq7sjvJ6W5iabL8ACg=
 github.com/bool64/shared v0.1.4/go.mod h1:ryGjsnQFh6BnEXClfVlEJrzjwzat7CmA8PNS5E+jPp0=
+github.com/bool64/shared v0.1.5 h1:fp3eUhBsrSjNCQPcSdQqZxxh9bBwrYiZ+zOKFkM0/2E=
+github.com/bool64/shared v0.1.5/go.mod h1:081yz68YC9jeFB3+Bbmno2RFWvGKv1lPKkMP6MHJlPs=
 github.com/cespare/xxhash v1.1.0/go.mod h1:XrSqR1VqqWfGrhpAt58auRo0WTKS1nRRg3ghfAqPWnc=
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=
 github.com/coreos/bbolt v1.3.2/go.mod h1:iRUV2dpdMOn7Bo10OQBFzIJO9kkE559Wcmn+qkEiiKk=
