@@ -3,7 +3,7 @@
 [![GitHub Releases](https://img.shields.io/github/v/release/godogx/elasticsteps)](https://github.com/godogx/elasticsteps/releases/latest)
 [![Build Status](https://github.com/godogx/elasticsteps/actions/workflows/test.yaml/badge.svg)](https://github.com/godogx/elasticsteps/actions/workflows/test.yaml)
 [![codecov](https://codecov.io/gh/godogx/elasticsteps/branch/master/graph/badge.svg?token=eTdAgDE2vR)](https://codecov.io/gh/godogx/elasticsteps)
-[![Go Report Card](https://goreportcard.com/badge/github.com/nhatthm/httpmock)](https://goreportcard.com/report/github.com/nhatthm/httpmock)
+[![Go Report Card](https://goreportcard.com/badge/github.com/godogx/elasticsteps)](https://goreportcard.com/report/github.com/godogx/elasticsteps)
 [![GoDevDoc](https://img.shields.io/badge/dev-doc-00ADD8?logo=go)](https://pkg.go.dev/github.com/godogx/elasticsteps)
 
 `elasticsteps` provides steps for [`cucumber/godog`](https://github.com/cucumber/godog) and makes it easy to run tests with ElasticSearch.
