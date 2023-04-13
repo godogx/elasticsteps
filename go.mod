@@ -8,7 +8,7 @@ require (
 	github.com/elastic/go-elasticsearch/v7 v7.17.7
 	github.com/godogx/expandvars v0.1.1
 	github.com/stretchr/testify v1.8.1
-	github.com/swaggest/assertjson v1.7.0
+	github.com/swaggest/assertjson v1.8.0
 )
 
 require (
