@@ -35,7 +35,7 @@ func (d *Document) UnmarshalJSON(data []byte) error {
 }
 
 // SearchResult represents the search result.
-type SearchResult struct {
+type SearchResult struct { //nolint: musttag
 	Hits SearchResultHits
 }
 
