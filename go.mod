@@ -8,7 +8,7 @@ require (
 	github.com/elastic/go-elasticsearch/v7 v7.17.10
 	github.com/godogx/expandvars v0.1.1
 	github.com/stretchr/testify v1.8.4
-	github.com/swaggest/assertjson v1.8.1
+	github.com/swaggest/assertjson v1.9.0
 )
 
 require (
@@ -20,7 +20,7 @@ require (
 	github.com/hashicorp/go-immutable-radix v1.3.1 // indirect
 	github.com/hashicorp/go-memdb v1.3.4 // indirect
 	github.com/hashicorp/golang-lru v0.5.4 // indirect
-	github.com/iancoleman/orderedmap v0.2.0 // indirect
+	github.com/iancoleman/orderedmap v0.3.0 // indirect
 	github.com/mattn/go-isatty v0.0.12 // indirect
 	github.com/nxadm/tail v1.4.8 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
